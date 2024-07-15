@@ -1,3 +1,5 @@
+// content.js
+
 // Initialize the heatmap instance
 const heatmapInstance = h337.create({
     container: document.body,
