@@ -1,0 +1,10 @@
+{
+    "name":"GoAnalytics",
+    "version": "1.0.0",
+    "description": "Extension",
+    "manifest_version": 3,
+    "action":{
+        "default_popup": "index.html",
+        "default_title": "GoAnalytics"
+    }
+}
