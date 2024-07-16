@@ -1,5 +1,6 @@
 // content.js
 const points = [];
+let trackingMouse = true
 
 // Initialize the heatmap instance
 const heatmapInstance = h337.create({
@@ -21,11 +22,13 @@ document.addEventListener('mousemove', function (event) {
 
     // Add to heatmap
     //addMousePosition(mousePosition);
-    points.push({
-        x: event.layerX,
-        y: event.layerY,
-        value: 1
-    })
+    if (trackingMouse) {
+        points.push({
+            x: event.clientX,
+            y: event.clientY,
+            value: 1
+        })
+    }
 
     // Log the position to verify
     console.log('Sending position:', mousePosition);
@@ -55,7 +58,9 @@ function fillHeatmap() {
         min: 0,
         data: points
     });
-    console.log(points);
+    trackingMouse = false;
+    document.getElementsByClassName("heatmap-canvas")[0].style.display = 'block';
+    //console.log(points);
 }
 
 function clearHeatmap() {
@@ -64,6 +69,8 @@ function clearHeatmap() {
         min: 0,
         data: []
     });
+    trackingMouse = true;
+    document.getElementsByClassName("heatmap-canvas")[0].style.display = 'none';
 }
 
 // Event listener for heatmap toggle
@@ -71,10 +78,8 @@ chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.name === "heatmap") {
             if (request.value === "show") {
-                document.getElementsByClassName("heatmap-canvas")[0].style.display = 'block';
                 fillHeatmap();
             } else {
-                document.getElementsByClassName("heatmap-canvas")[0].style.display = 'none';
                 clearHeatmap();
             }
         }
