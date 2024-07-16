@@ -1,45 +1,36 @@
-// background.js
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    console.log('Mouse position received:', message);
+// Import the necessary Firebase SDKs
+import { doc, setDoc, arrayUnion } from "firebase/firestore";
+import { db } from './firebase.js'; // Import db from firebase.js
 
-    // Store the mouse position in the local storage
-    chrome.storage.local.get(['mousePositions'], function(result) {
-        const mousePositions = result.mousePositions || [];
-        mousePositions.push(message);
-        chrome.storage.local.set({ mousePositions: mousePositions });
+// background.js
+chrome.identity.getProfileUserInfo(function(userInfo) {
+    const userId = userInfo.id;
+
+    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+        console.log('Mouse position received:', message);
+        //from before db
+            // Store the mouse position in the local storage
+        chrome.storage.local.get(['mousePositions'], function(result) {
+            const mousePositions = result.mousePositions || [];
+            mousePositions.push(message);
+            chrome.storage.local.set({ mousePositions: mousePositions });
+        });
+        // Get a reference to the Firestore document
+        const docRef = doc(db, 'usersMouseTrace', userId);
+
+        // Add the mouse position to the Firestore document
+        setDoc(docRef, {
+            x: arrayUnion(message.x),
+            y: arrayUnion(message.y),
+            website_url: sender.url // Fetch the URL
+        }, { merge: true });
     });
 });
 
-let userId = '';
+/*
 
-// background.js (get login info)
-chrome.identity.getProfileUserInfo(function(userInfo) {
-    userId = userInfo.id;
-    console.log(JSON.stringify(userInfo));
-  });
-  
+documentID = WvtGgRWObOHLiEA3jgY2 
+.filter( documentID => doc.id )
+doc.id.coordinates.x_coordinates: arrayUnion(message.x), 
 
-// Get the user ID (already authenticated) and the stored mouse positions
-chrome.storage.local.get(['mousePositions'], function(result) {
-    const xCoordinates = result.mousePositions.map(pos => pos.x);
-    const yCoordinates = result.mousePositions.map(pos => pos.y);
-
-    // Reference to the "usersMouseTrace" collection
-    const usersMouseTraceRef = doc(db, 'usersMouseTrace', userId);
-
-    // Update the document with the x and y coordinates
-    setDoc(usersMouseTraceRef, {
-        x_coordinates: arrayUnion(...xCoordinates),
-        y_coordinates: arrayUnion(...yCoordinates)
-    }, { merge: true })
-        .then(() => {
-            console.log(`Mouse trace data for user ${userId} added to Firestore.`);
-        })
-        .catch(error => {
-            console.error('Error adding mouse trace data:', error);
-        });
-});
-
-// Remember to replace placeholders (e.g., 'your_user_id') with actual values.
-// Adapt the code according to your specific requirements and integrate it with your existing authentication flow.
-
+*/ 
