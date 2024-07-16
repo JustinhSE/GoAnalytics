@@ -1,41 +1,82 @@
 // content.js
+const points = [];
 
 // Initialize the heatmap instance
 const heatmapInstance = h337.create({
     container: document.body,
-    maxOpacity: .6,
-    radius: 50,
-    blur: .90,
+    radius: 90,
     backgroundColor: 'rgba(0, 0, 0, 0.3)'
 });
+document.getElementsByClassName("heatmap-canvas")[0].style.display = 'none';
 
-// Function to track mouse movements and add data to the heatmap
-document.addEventListener('mousemove', function(event) {
+// Event listener for mouse movement
+document.addEventListener('mousemove', function (event) {
     const mousePosition = {
         x: event.clientX,
         y: event.clientY,
-        value: 1 // Each movement adds a value of 1
+        time: new Date().toISOString()
     };
+    // Display the mouse position visually on the page
+    displayMousePosition(mousePosition);
 
-    // Add data to the heatmap
-    heatmapInstance.addData(mousePosition);
-    var x = document.getElementById("test");
+    // Add to heatmap
+    //addMousePosition(mousePosition);
+    points.push({
+        x: event.layerX,
+        y: event.layerY,
+        value: 1
+    })
 
-    chrome.runtime.sendMessage({greeting: "hello"});
+    // Log the position to verify
+    console.log('Sending position:', mousePosition);
+    // Send the mouse position data to the background script
+    chrome.runtime.sendMessage({ type: 'mousePosition', data: mousePosition });
 });
 
+function displayMousePosition(position) {
+    // Create a small dot element
+    const dot = document.createElement('div');
+    dot.className = 'mouse-dot'; // Apply the CSS class
+    dot.style.top = `${position.y - 5}px`; // Center the dot
+    dot.style.left = `${position.x - 5}px`; // Center the dot
+
+    // Append the dot to the body
+    document.body.appendChild(dot);
+
+    // Remove the dot after a short delay
+    setTimeout(() => {
+        dot.remove();
+    }, 1000); // Adjust the duration as needed
+}
+
+function fillHeatmap() {
+    heatmapInstance.setData({
+        max: 100,
+        min: 0,
+        data: points
+    });
+    console.log(points);
+}
+
+function clearHeatmap() {
+    heatmapInstance.setData({
+        max: 100,
+        min: 0,
+        data: []
+    });
+}
+
+// Event listener for heatmap toggle
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.name === "heatmap") {
             if (request.value === "show") {
                 document.getElementsByClassName("heatmap-canvas")[0].style.display = 'block';
+                fillHeatmap();
             } else {
                 document.getElementsByClassName("heatmap-canvas")[0].style.display = 'none';
+                clearHeatmap();
             }
-        }
-
-        if (request.greeting === "hello") {
-            console.log("message received")
         }
     }
 );
