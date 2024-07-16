@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "heatmap.js": "^2.0.5"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "typescript": "^5.5.3"
+  }
+}
