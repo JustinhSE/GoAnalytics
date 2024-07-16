@@ -1,3 +1,5 @@
+// content.js
+
 // Initialize the heatmap instance
 const heatmapInstance = h337.create({
     container: document.body,
@@ -17,4 +19,6 @@ document.addEventListener('mousemove', function(event) {
 
     // Add data to the heatmap
     heatmapInstance.addData(mousePosition);
+    var x = document.getElementById("test");
+    heatmapInstance.cl
 });
