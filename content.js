@@ -1,24 +1,6 @@
 // content.js
 
 // Initialize the heatmap instance
-const heatmapContainer = document.createElement('div');
-heatmapContainer.id = 'heatmapContainer';
-heatmapContainer.setAttribute('style', `
-    position: absolute;
-    top: 0;
-    left; 0;
-    width: 100%;
-    height: 100%;
-    background-color: lightblue;
-    `);
-document.body.appendChild(heatmapContainer);
-/*const data = {
-    "container" : heatmapContainer
-}
-chrome.storage.local.set(data, function() {
-    console.log("data saved!!!")
-})*/
-
 const heatmapInstance = h337.create({
     container: document.body,
     maxOpacity: .6,
@@ -38,4 +20,22 @@ document.addEventListener('mousemove', function(event) {
     // Add data to the heatmap
     heatmapInstance.addData(mousePosition);
     var x = document.getElementById("test");
+
+    chrome.runtime.sendMessage({greeting: "hello"});
 });
+
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.name === "heatmap") {
+            if (request.value === "show") {
+                document.getElementsByClassName("heatmap-canvas")[0].style.display = 'block';
+            } else {
+                document.getElementsByClassName("heatmap-canvas")[0].style.display = 'none';
+            }
+        }
+
+        if (request.greeting === "hello") {
+            console.log("message received")
+        }
+    }
+);

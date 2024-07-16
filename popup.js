@@ -15,9 +15,15 @@ document.getElementById('showPositions').addEventListener('click', function() {
 document.getElementById('toggle').addEventListener('change', function() {
     if (document.getElementById('toggle').checked) {
         console.log("CHECKED");
-        //document.getElementById('heatmapContainer').style.display = "block"
+        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+            var activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, {"name": "heatmap", "value": "show"});
+        });
     } else {
         console.log("UNCHECKED");
-        //document.getElementById('heatmapContainer').style.display = "none"
+        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
+            var activeTab = tabs[0];
+            chrome.tabs.sendMessage(activeTab.id, {"name": "heatmap", "value": "hide"});
+        });
     }
 });

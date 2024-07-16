@@ -5,7 +5,8 @@
   "description": "Tracks mouse positions on a webpage",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "background": {
     "scripts": ["background.js"],
