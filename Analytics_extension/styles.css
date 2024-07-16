@@ -1,0 +1,11 @@
+/* styles.css */
+.mouse-dot {
+    width: 10px;
+    height: 10px;
+    background-color: blue;
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid white;
+    pointer-events: none; /* Ensure the dot does not interfere with mouse events */
+    z-index: 9999; /* Ensure the dot is on top of other elements */
+}
