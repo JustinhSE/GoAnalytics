@@ -1,7 +1,7 @@
 import { initializeApp } from "./.idea/firebase/app/dist/app";
 import { getAnalytics } from "./.idea/firebase/analytics/dist/analytics";
 import { getFirestore } from "./.idea/firebase/firestore/dist/firestore"; // Import Firestore functions
-require("dotenv").config();
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
