@@ -11,3 +11,13 @@ document.getElementById('showPositions').addEventListener('click', function() {
         });
     });
 });
+
+document.getElementById('toggle').addEventListener('change', function() {
+    if (document.getElementById('toggle').checked) {
+        console.log("CHECKED");
+        //document.getElementById('heatmapContainer').style.display = "block"
+    } else {
+        console.log("UNCHECKED");
+        //document.getElementById('heatmapContainer').style.display = "none"
+    }
+});

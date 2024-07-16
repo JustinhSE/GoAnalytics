@@ -11,6 +11,13 @@
             max-height: 300px;
             overflow-y: auto;
         }
+        #heatmapContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 
     <link rel="stylesheet" href="popup.css">
@@ -22,8 +29,10 @@
 
 <div id="positions"></div>
 
+<div id="heatmapContainer"></div>
+
 <label class="switch">
-    <input type="checkbox">
+    <input type="checkbox" id="toggle">
     <span class="slider round"></span>
 </label>  
 
