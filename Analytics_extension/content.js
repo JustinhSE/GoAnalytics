@@ -1,5 +1,4 @@
 import firebase from 'firebase/compat/app';
-// Required for side-effects
 import 'firebase/firestore';
 
 const db = firebase.firestore();
@@ -11,7 +10,6 @@ document.addEventListener('mousemove', function (event) {
         url: window.location.href
         
     };
-    // Display the mouse position visually on the page (you need to implement this function)
     displayMousePosition(mousePosition);
 
     // Log the position to verify
