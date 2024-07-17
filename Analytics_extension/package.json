@@ -1,5 +1,4 @@
 {
-  "type" : "module",
   "dependencies": {
     "firebase": "^10.12.3",
     "heatmap.js": "^2.0.5"

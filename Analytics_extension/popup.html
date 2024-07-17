@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Mouse Tracker</title>
     <style>
@@ -7,16 +8,52 @@
             font-family: Arial, sans-serif;
             padding: 10px;
         }
+
         #positions {
             max-height: 300px;
             overflow-y: auto;
         }
     </style>
 </head>
+
 <body>
-<h1>Mouse Tracker</h1>
-<button id="showPositions">Show Mouse Positions</button>
-<div id="positions"></div>
-<script src="popup.js"></script>
+    <!-- Insert this script at the bottom of the HTML, but before you use any Firebase services -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js'
+
+        // If you enabled Analytics in your project, add the Firebase SDK for Google Analytics
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js'
+
+        // Add Firebase products that you want to use
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js'
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js'
+
+        // TODO: Replace the following with your app's Firebase project configuration
+        const firebaseConfig = {
+            apiKey: apikey,
+            authDomain: authDomain,
+            projectId: projectId,
+            storageBucket: storageBucket,
+            messagingSenderId: messagingSenderId,
+            appId: appId,
+            measurementId: measurementId
+        };
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+    </script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore-compat.js"></script>
+<script src = "content.js"></script>
 </body>
+
+<body>
+    <h1>Mouse Tracker</h1>
+    <button id="showPositions">Show Mouse Positions</button>
+    <div id="positions"></div>
+    <script src="popup.js"></script>
+</body>
+
 </html>
